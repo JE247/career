@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+.form-group{
+	padding : 10px 5px
+}
+
+.form-group.first {
+	width: 75%;
+	display: inline-block;
+}
+
+
+#contentsWidth {
+	max-width: 80%;
+	flex: 80%;
+}
+
+#idCheck, #emailCheck, #comfirm, #searchComp {
+	display: inline-block;
+	width: 93px;
+	margin-left: 5px;
+	text-align: center;
+ 	position: relative;
+	bottom: 25px;
+}

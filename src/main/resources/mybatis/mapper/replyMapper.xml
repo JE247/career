@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="kr.co.career.dao.ReplyDao">
+	<insert id="addReply" parameterType="ReplyDto">
+		insert into REPLY(mno, bno, rregdate, comment, status, ref, refOrder)
+		values(#{mno}, #{bno}, DATE_ADD(NOW(), INTERVAL 9 HOUR), #{comment}, #{status}, #{ref}, #{refOrder})	
+	</insert>
+	
+	<select id="getMaxRef" parameterType="int" resultType="int">
+		select ifnull(max(ref),0) 
+		from REPLY where bno = #{bno}
+	</select>
+	
+	<select id="getReplyAll" parameterType="int" resultType="ReplyMemberDto">
+		select A.replyno, A.mno, A.bno, A.rregdate, A.comment, A.status, A.ref, A.refOrder, B.nickname, B.company
+		from REPLY A inner join `MEMBER` B on A.MNO = B.MNO
+        where bno = #{bno}
+        order by ref, reforder
+	</select>
+	
+	<select id="getReplyOne" parameterType="int" resultType="ReplyDto">
+		select replyno, mno, bno, rregdate, comment, status, ref, refOrder
+		from REPLY
+		where replyno = #{replyNo}
+	</select>
+	
+	<select id="isReplyChild" parameterType="ReplyDeleteDto" resultType="int">
+		select count(*) from REPLY where ref = #{ref} and bno = #{bno};
+	</select>
+	
+	<delete id="deleteOne" parameterType="int">
+		delete from REPLY where replyno = #{replyno}
+	</delete>
+	
+	<update id="deleteUpdate" parameterType="int">
+		update REPLY
+		set comment = '삭제된 댓글입니다.', status = 2
+		where replyno = #{replyNo}
+	</update>
+	
+	<select id="getLike" parameterType="GoodDto" resultType="GoodDto">
+		select gno, bno, mno, `like`, dislike
+		from GOOD
+		where bno = #{bno} and mno = #{mno}
+	</select>
+	
+	<update id="updateLike" parameterType="GoodDto">
+		update GOOD
+		set `like` = #{like}, dislike = #{disLike}
+		where gno = #{gno}
+	</update>
+	
+	<insert id="insertGoodOne" parameterType="GoodDto">
+		insert into GOOD(bno, mno, `like`, dislike)
+		values(#{bno}, #{mno}, 0, 0)
+	</insert>
+	
+	<delete id="deleteGood" parameterType="int">
+		delete from GOOD
+		where bno = #{bno}
+	</delete>
+	
+	<select id="getMaxRefOrder" parameterType="ReplyDto" resultType="int">
+		select max(reforder) 
+		from REPLY where ref = #{ref} and bno = #{bno}
+	</select>
+	
+	<update id="modifyReply" parameterType="ReplyDto">
+		update REPLY
+		set comment = #{comment} where replyno = #{replyNo}
+	</update>
+	
+	<select id="getReplyDeletedOne" parameterType="ReplyDto" resultType="int">
+		select replyno from REPLY
+		where bno = #{bno} and ref = #{ref} and reforder = 0
+	</select>
+</mapper>  

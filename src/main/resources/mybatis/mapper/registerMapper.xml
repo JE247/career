@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.career.dao.MemberDao">
+	
+	<select id="idCheck" parameterType="String" resultType="int">
+		select count(*) from MEMBER where username = #{username}
+	</select>
+	
+	<select id="findByUsername" parameterType="String" resultType="MemberDTO">
+		select mno, username, password, originpw, nickname, company, role, email, provider, providerId
+		from MEMBER
+		where username = #{username}
+	</select>
+	
+	<insert id="addOne" parameterType="MemberDTO">
+		insert into MEMBER(username, password, originpw, nickname, email, company, role, provider, providerId)
+		values(#{username}, #{password}, #{originpw}, #{nickname}, #{email}, #{company}, #{role}, #{provider}, #{providerId})
+	</insert>
+	
+	<update id="updateInfo" parameterType="MemberDTO">
+		update MEMBER
+		set nickname = #{nickname}, company = #{company}
+		<if test="password != null">
+		, password = #{password}, originpw = #{originpw}
+		</if>
+		where mno = #{mno}
+	</update>
+	
+	<select id="findMyInfo" parameterType="int" resultType="MemberDTO">
+		select mno, username, password, originpw, nickname, company, role, email, provider, providerId
+		from MEMBER
+		where mno = #{mno}
+	</select>
+	
+	<select id="findPass" parameterType="MemberDTO" resultType="MemberDTO">
+		select mno, username, password, originpw, nickname, company, role, email, provider, providerId
+		from MEMBER
+		where username = #{username} and email = #{email}
+	</select>
+
+</mapper>

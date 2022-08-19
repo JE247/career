@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.career.dao.BoardDao">
+	<select id="selectBoardAll" parameterType="StartEnd" resultType="BoardDto">
+ 		select bno, btitle, mno, bcontents, bregdate, category, bhits
+		from BOARD order by bregdate DESC 
+		limit #{startNo}, #{countPerPage}
+	</select>
+	<select id="selectBoard" parameterType="StartEnd" resultType="BoardDto">
+ 		select bno, btitle, mno, bcontents, bregdate, category, bhits
+		from BOARD 
+ 		where category = #{category} order by bregdate DESC
+		limit #{startNo}, #{countPerPage}
+	</select>
+	
+	<select id="selectOne" parameterType="int" resultType="BoardDto">
+		select bno, btitle, mno, bcontents, bregdate, category, bhits
+		from BOARD 
+		where bno = #{bno}
+	</select>
+	
+	<select id="findBno" parameterType="int" resultType="int">
+		select max(bno) from BOARD where mno = #{mno}
+	</select>
+	
+	<insert id="addOne" parameterType="BoardDto">
+		insert into BOARD(btitle, mno, bcontents, bregdate, category, bhits)
+		values(#{btitle}, #{mno}, #{bcontents}, DATE_ADD(NOW(), INTERVAL 9 HOUR), #{category}, 0)
+	</insert>
+	
+	<update id="updateOne" parameterType="BoardDto">
+		update BOARD
+		set btitle = #{btitle}, bcontents = #{bcontents}, category = #{category}
+		where bno = #{bno}
+	</update>
+	
+	<select id="getCategoryTotal" parameterType="String" resultType="int">
+		select count(*) from BOARD
+		where category= #{category}
+	</select>
+	
+	<select id="getTotal"  resultType="int">
+		select count(*) from BOARD
+	</select>
+	
+	<select id="selectBoardWriterAll" parameterType="StartEnd" resultType="BoardWriter">
+		select A.BNO, B.nickname, B.company
+		from BOARD A inner join `MEMBER` B on A.MNO = B.MNO
+		order by bregdate DESC 
+		limit #{startNo}, #{countPerPage}
+	</select>
+	
+	<select id="selectBoardWriter" parameterType="StartEnd" resultType="BoardWriter">
+		select A.BNO, B.nickname, B.company
+		from BOARD A inner join `MEMBER` B on A.MNO = B.MNO
+		where category = #{category}
+		order by bregdate DESC
+		limit #{startNo}, #{countPerPage}
+	</select>
+	
+	<select id="findMyboard" parameterType="int" resultType="BoardDto">
+		select bno, btitle, mno, bcontents, DATE_FORMAT(bregdate, '%y-%m-%d') as bregdate, category, bhits
+		from BOARD 
+ 		where mno = #{mno}
+ 		order by bregdate desc
+	</select>
+	
+	<delete id="deleteOne" parameterType="int">
+		delete from BOARD where bno = #{bno}
+	</delete>
+	
+	<select id="boardDetail" parameterType="int" resultType="BoardDto">
+		select bno, btitle, mno, bcontents, bregdate, category, bhits
+		from BOARD where bno = #{bno}
+	</select>
+	
+	<select id="getSearchTotal" parameterType="String" resultType="int">
+		select count(*)
+		from BOARD where btitle like concat('%',#{btitle},'%')
+	</select>
+	
+	<select id="searchBoardAll" parameterType="StartEnd" resultType="BoardDto">
+		select bno, btitle, mno, bcontents, bregdate, category, bhits 
+		from BOARD where btitle like concat('%',#{btitle},'%')
+		order by bregdate DESC
+		limit #{startNo}, #{countPerPage}
+	</select>
+	
+	<select id="searchBoard" parameterType="StartEnd" resultType="BoardDto">
+		select bno, btitle, mno, bcontents, bregdate, category, bhits 
+		from BOARD where btitle like concat('%',#{btitle},'%') and category = #{category}
+		order by bregdate DESC
+        limit #{startNo}, #{countPerPage}
+	</select>
+	
+	<select id="searchBoardWriterAll" parameterType="StartEnd" resultType="BoardWriter">
+		select A.BNO, B.nickname, B.company
+		from BOARD A inner join `MEMBER` B on A.MNO = B.MNO
+		where btitle like concat('%',#{btitle},'%')
+		order by bregdate DESC 
+		limit #{startNo}, #{countPerPage}
+	</select>
+	
+	<select id="searchBoardWriter" parameterType="StartEnd" resultType="BoardWriter">
+		select A.BNO, B.nickname, B.company
+		from BOARD A inner join `MEMBER` B on A.MNO = B.MNO
+		where btitle like concat('%',#{btitle},'%') and category = #{category}
+		order by bregdate DESC 
+		limit #{startNo}, #{countPerPage}
+	</select>
+	<select id="selectTopicBest" resultType="BoardDto">
+		select bno, btitle, mno, bcontents, bregdate, category, bhits
+		from BOARD WHERE bregdate BETWEEN DATE_ADD(DATE_ADD(NOW(), INTERVAL 9 HOUR), INTERVAL -1 WEEK) AND DATE_ADD(NOW(), INTERVAL 9 HOUR) order by bhits DESC
+		limit 0, 10
+	</select>
+	<select id="selectByCategory" parameterType="String" resultType="BoardDto">
+		select bno, btitle, mno, bcontents, bregdate, category, bhits
+		from BOARD WHERE category=#{category} order by bno DESC 
+	</select>
+	
+	<update id="boardRaise" parameterType="int">
+		update BOARD
+		set bhits = bhits + 1 where bno = #{bno}
+	</update>
+	
+	<select id="getMember" parameterType="int" resultType="BoardWriter">
+		select A.BNO, A.MNO, B.nickname, B.company
+		from BOARD A inner join `MEMBER` B on A.MNO = B.MNO
+		where bno = #{bno}
+	</select>
+	
+	<select id="getBoardLike" parameterType="int" resultType="int">
+		select ifnull(sum(`like`),0) from GOOD where bno = #{bno};
+	</select>
+	<select id="getBoardReply" parameterType="int" resultType="int">
+		select ifnull(count(*),0) from REPLY where bno = #{bno};
+	</select>
+	
+	<select id="selectBoardWriterBest" resultType="BoardWriter">
+		select A.BNO, B.nickname, B.company
+		from BOARD A inner join `MEMBER` B on A.MNO = B.MNO 
+		WHERE bregdate BETWEEN DATE_ADD(DATE_ADD(NOW(), INTERVAL 9 HOUR), INTERVAL -1 WEEK) AND DATE_ADD(NOW(), INTERVAL 9 HOUR) order by bhits DESC 
+	</select>
+</mapper>

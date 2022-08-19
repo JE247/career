@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="kr.co.career.dao.CompDetailDao">
+	<select id="selectOne" parameterType="int" resultType="CompDetailDto">
+		select * from COMPANY where CNO=#{cno}
+	</select>
+	
+	<select id="selectCompList" resultType="CompDetailDto">
+		select cname, cnum from COMPANY
+	</select>
+
+	<select id="searchCompList" parameterType="String" resultType="CompDetailDto">
+		select cno, cname, cnum from COMPANY where cname like CONCAT('%',#{cname},'%')
+	</select>
+	<select id="selectPopular" resultType="CompDetailDto">
+		select cphoto, cname, chits, cno, caddrs
+		from COMPANY
+		order by chits desc limit 20
+	</select>
+	<select id="selectAnnual" resultType="CompDetailDto">
+		select  cphoto, cname, caddrs, (csal/totalmem)*12*100/9 as csal, cno, cnum
+		from COMPANY
+		order by csal desc limit 20
+	</select>
+	<select id="searchResult" parameterType="String" resultType="CompDetailDto">
+		select cno, cphoto, cname, cnum, chits, caddrs from COMPANY 
+		where cname like CONCAT('%',#{cname},'%')
+	</select>
+	<select id="searchResultPaging" parameterType="SearchPagingDTO" resultType="CompDetailDto">
+		select cno, cphoto, cname, cnum, chits, caddrs from COMPANY 
+		where cname like CONCAT('%',#{cname},'%')
+		order by cno
+		limit #{startNo}, #{countPerPage}
+	</select>
+	<update id="hit" parameterType="int">
+		update COMPANY set chits=chits+1 where cno=#{cno}
+	</update>
+	
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="kr.co.career.dao.LocalDao">
+
+
+	<select id="selectAll" resultType="LocalDto">
+		select * from LOCAL
+	</select>
+	<select id="selectOne" parameterType="int" resultType="LocalDto">
+		select * from LOCAL where lno = #{lno}
+	</select>
+	<select id="selectSidoName" parameterType="LocalDto" resultType="LocalDto">
+		select * from LOCAL WHERE SIDO = #{sido} AND SIGUNGU = #{sigungu}
+	</select>
+	<select id="selectSido" resultType="LocalDto">
+		select SIDO, SIDONAME from LOCAL GROUP BY SIDO
+	</select>
+	<select id="selectSigungu" parameterType="int" resultType="LocalDto">
+		select SIDONAME, SIGUNGU, SIGUNGUNAME from LOCAL WHERE SIDO = #{SIDO}
+	</select>
+	<select id="filterLocal" parameterType="HashMap" resultType="CompDetailDto">
+		<foreach collection="list" index="index" item="local" separator="union">
+			SELECT * FROM COMPANY 
+			WHERE (LNO IN (SELECT LNO FROM LOCAL WHERE SIDO = #{local.sido}
+				<if test="local.sigungu != 0">
+					AND SIGUNGU = #{local.sigungu}
+				</if>
+			)) 
+			AND cname like CONCAT('%',#{local.sidoname},'%')
+		</foreach>
+	</select>
+	<select id="filterLocalPaging" parameterType="HashMap" resultType="CompDetailDto">
+	select * from (
+		<foreach collection="searchList" index="index" item="local" separator="union">
+			SELECT * FROM COMPANY 
+			WHERE (LNO IN (SELECT LNO FROM LOCAL WHERE SIDO = #{local.sido}
+				<if test="local.sigungu != 0">
+					AND SIGUNGU = #{local.sigungu}
+				</if>
+			)) 
+			AND cname like CONCAT('%',#{local.sidoname},'%')
+		</foreach>
+		) RESULT
+		order by cno
+		limit #{startNo}, #{countPerPage}
+	</select>
+</mapper>

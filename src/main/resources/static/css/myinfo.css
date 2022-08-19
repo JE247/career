@@ -1,0 +1,250 @@
+@charset "UTF-8";
+
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+a {
+	color: black;
+}
+
+.header {
+	height: 200px;
+}
+
+.mycontents {
+	display: flex;
+}
+
+.myinfo {
+	width: 35%;
+	text-align: center;
+	border-right: 1px solid #cccccc
+}
+
+.image {
+	width: 150px;
+	height: 150px;
+	border-radius: 70%;
+	overflow: hidden;
+	margin: 20px auto;
+}
+
+.image>img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+#infoTable {
+	width: 70%;
+	margin: 10px auto;
+}
+
+#staticNickName, #staticCompany {
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+#updateTable {
+	display: none;
+}
+
+.title {
+	font-family: 'Jua', sans-serif;
+	width: 30%;
+}
+
+.col-sm-10 {
+	width: 70%;
+}
+
+#searchCompany, #updatePw {
+	margin-left: 20px;
+	border: none;
+	background: #85A4F6;
+	color: white;
+	border-radius: 0px;
+}
+
+#inputCompany {
+	font-size: 14px;
+}
+
+.inputBtn {
+	width: 30%;
+	margin: 0px 25px;
+	border: none;
+	background: #85A4F6;
+	color: white;
+	border-radius: 0px;
+}
+
+.inputBtn:hover {
+	background: #4E69ED;
+}
+
+.activeTitle {
+	font-family: 'Do Hyeon', sans-serif;
+	font-size: 25px;
+	display: inline-block;
+}
+
+.myactive {
+	margin: 20px;
+	width: 64%;
+}
+
+.scrapContents {
+	height: 190px;
+}
+
+.compList .compImg {
+	text-align: center;
+}
+
+.compList .compImg>img {
+	width: 200px;
+	height: 150px;
+	margin: 0px auto;
+}
+
+.compDetail {
+	margin-left: 15px;
+}
+
+.cname {
+	display: inline-block;
+	font-family: 'Jua', sans-serif;
+	font-size: 17px;
+	margin-bottom: 10px;
+}
+
+.clocal {
+	font-family: 'Nanum Gothic Coding', monospace;
+	font-size: 14px;
+}
+
+.ccodename {
+	display: inline-block;
+	font-size: 13px;
+}
+
+.bookmark {
+	position: absolute;
+	right: 0px;
+	top: 10px;
+}
+
+.cUTTJm {
+	position: relative;
+}
+
+.gKbwzP {
+	padding-bottom: 15px;
+}
+
+.aram {
+	font-family: 'Noto Sans KR', sans-serif;
+	margin: 50px;
+}
+
+.box {
+	height: 150px;
+}
+
+.scrapInfo {
+	position: relative;
+}
+
+#load, #moreList {
+	position: absolute;
+	right: 10px;
+}
+
+.reviewInfo {
+	display: flex;
+	margin: 10px auto;
+}
+
+.reviewwrite {
+	width: 90%;
+	padding: 10px 30px
+}
+
+.reviewTitle {
+	font-family: 'Jua', sans-serif;
+	font-size: 17px;
+	margin-top: 15px;
+}
+
+.reviewContents {
+	margin-top: 10px;
+	white-space: pre-wrap;
+	overflow-y: hidden;
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+.reviewbtn {
+	margin: 5px;
+	font-size: 14px;
+	border: none;
+	background: #85A4F6;
+	color: white;
+	border-radius: 0px;
+	height: 40px;
+}
+
+.reviewbtn:hover {
+	background: #4E69ED;
+}
+
+.boardbtn {
+	margin: 5px;
+	font-size: 14px;
+	display: flex;
+	border: none;
+	background: #85A4F6;
+	color: white;
+	border-radius: 0px;
+}
+
+.boardInfo {
+	display: flex;
+	margin: 10px auto;
+}
+
+.boardWrite {
+	width: 70%;
+}
+
+.boardbutton {
+	display: flex;
+	width: 150px;
+	margin: 0px 0px 0px 40%;
+}
+
+table td {
+	vertical-align: middle;
+}
+
+table th {
+	font-family: 'Noto Sans KR', sans-serif;
+	text-align: center
+}
+
+#updateMyInfo, #cancleMyInfo {
+	width: auto;
+	font-size: 14px;
+	margin: 0px 25px;
+}
+
+.moreinfo {
+	font-size: 14px;
+}
+
+.button {
+	width: 20%;
+	display: flex;
+	padding: 20px
+}
